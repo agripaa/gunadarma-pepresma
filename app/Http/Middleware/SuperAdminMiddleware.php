@@ -9,10 +9,10 @@ class SuperAdminMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role == 'superadmin') {
-            return $next($request); // Allow access if user is superadmin
+        if (Auth::check() && (int) Auth::user()->role === 1) {
+            return $next($request);
         }
 
-        return redirect('/home'); // Otherwise redirect
+        abort(403);
     }
 }

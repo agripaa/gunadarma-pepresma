@@ -78,7 +78,7 @@
                 <!-- Contact Us in Footer -->
                 <div class="text-center md:text-left">
                     <h5 class="font-semibold mb-2">Contact Us</h5>
-                    <p><a href="tel:+62{{ $contact->no_telepon }}" class="hover:underline"><i class="fas fa-phone"></i> {{ $contact->no_telepon ?? 'N/A' }}</a></p>
+                    <p><i class="fas fa-phone"></i> @if ($contact)<a href="tel:+62{{ $contact->no_telepon }}" class="hover:underline">{{ $contact->no_telepon }}</a>@else N/A @endif</p>
                     <p><i class="fas fa-map-marker-alt"></i> {{ $contact->alamat ?? 'N/A' }}</p>
                 </div>
             </div>
