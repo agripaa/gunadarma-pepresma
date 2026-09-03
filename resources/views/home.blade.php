@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to fetch and update prestasi data
     function fetchPrestasi(faculty = '', search = '', page = 1) {
-        const url = `/get-prestasi?faculty_id=${faculty}&search=${search}&page=${page}`;
+        const url = `{{ route('get-prestasi') }}?faculty_id=${faculty}&search=${search}&page=${page}`;
 
         fetch(url)
             .then(response => response.json())
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td class="py-4 px-6 text-center">${prestasi.nama_kegiatan}</td>
                             <td class="py-4 px-6 text-center">${prestasi.capaian.jenis_juara}</td>
                             <td class="py-4 px-6 text-center">
-                                ${prestasi.file_upload ? `<a class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-2xl text-gray-100 font-semibold" href="/storage/${prestasi.file_upload.url_certificate}" target="_blank">View Certificate</a>` : 'No Lampiran'}
+                                ${prestasi.file_upload ? `<a class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-2xl text-gray-100 font-semibold" href="{{ asset('storage') }}/${prestasi.file_upload.url_certificate}" target="_blank">View Certificate</a>` : 'No Lampiran'}
                             </td>
                         </tr>
                     `;

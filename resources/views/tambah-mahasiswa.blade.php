@@ -223,7 +223,7 @@
         }
 
         targetSelect.disabled = true;
-        fetch(`/get-prodi-by-faculty/${facultyId}`)
+        fetch(`{{ url('/get-prodi-by-faculty') }}/${facultyId}`)
             .then(response => response.json())
             .then(data => {
                 targetSelect.innerHTML = '<option value="">Pilih Program Studi</option>';

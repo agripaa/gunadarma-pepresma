@@ -80,7 +80,7 @@
             return;
         }
 
-        fetch(`/get-prodi-by-faculty/${fakultasId}`)
+        fetch(`{{ url('/get-prodi-by-faculty') }}/${fakultasId}`)
             .then(response => response.json())
             .then(data => {
                 prodiSelect.innerHTML = '<option value="">Pilih Program Studi</option>';

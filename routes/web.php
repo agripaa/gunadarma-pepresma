@@ -23,23 +23,15 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/get-prestasi', [HomeController::class, 'getPrestasiAjax'])->name('get-prestasi');
 
 
-Route::get('/data/role', function () {
-    return view('data.role');
-});
-
-Route::get('/prestasi-visitor', [PrestasiController::class, 'fetchPrestasiVisitor'])->name('prestasi.visitor');
+// ponytail: these all write master data -- they were public. Wrapped in 'auth'
+// instead of being annotated one by one.
+Route::middleware('auth')->group(function () {
 
 Route::get('/roles', [RolesController::class, 'index']);
 Route::get('/roles/{id}', [RolesController::class, 'show']);
 Route::post('/roles', [RolesController::class, 'store']);
 Route::put('/roles/{id}', [RolesController::class, 'update']);
 Route::delete('/roles/{id}', [RolesController::class, 'destroy']);
-
-Route::get('/registerSuperAdmin', function () {
-    return view('data.registerSuperAdmin');
-})->name('registerSuperAdmin');
-
-Route::post('/registerSuperAdmin', [AuthController::class, 'registerSuperAdmin']);
 
 Route::post('/kepesertaan', [KepesertaanController::class, 'store']);
 Route::get('/kepesertaan/edit/{id}', [KepesertaanController::class, 'edit'])->name('kepesertaan.edit');
@@ -66,16 +58,18 @@ Route::get('/posisi/edit/{id}', [PosisiDataController::class, 'edit'])->name('po
 Route::post('/posisi/update/{id}', [PosisiDataController::class, 'update'])->name('posisi.update');
 Route::delete('/posisi/delete/{id}', [PosisiDataController::class, 'destroy'])->name('posisi.delete');
 
+});
+
+// Bootstrap the first super admin only. Blocked once one exists.
+Route::middleware('setup')->group(function () {
+    Route::get('/registerSuperAdmin', fn () => view('data.registerSuperAdmin'))->name('registerSuperAdmin');
+    Route::post('/registerSuperAdmin', [AuthController::class, 'registerSuperAdmin']);
+});
+
 // Route Login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Route Register (Only for Super Admin)
-Route::middleware(['auth', 'superadmin'])->group(function () {
-    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
-});
 
 // Route CRUD untuk Admin dan Super Admin
 Route::middleware(['auth'])->group(function () {
@@ -119,7 +113,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/search-dospem', [PrestasiController::class, 'searchDospem'])->name('search-dospem');
     
     // Route untuk form dan menyimpan data mahasiswa
-    Route::get('/get-mahasiswa/{id}', [MahasiswaController::class, 'getMahasiswaDetails']);
     Route::get('/mahasiswa', [MahasiswaController::class, 'create'])->name('mahasiswa.index');
     Route::post('/mahasiswa', [MahasiswaController::class, 'store'])->name('mahasiswa.store');
     Route::get('/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.edit');
@@ -142,7 +135,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/fakultas/{id}', [FacultyDataController::class, 'update'])->name('fakultas.update');
     Route::delete('/fakultas/{id}', [FacultyDataController::class, 'destroy'])->name('fakultas.destroy');
     
-    Route::get('/get-prodi/{prodiId}', [ProdiDataController::class, 'fetchProdi']);
     Route::get('/prodi', [ProdiDataController::class, 'create'])->name('prodi.index');
     Route::post('/prodi', [ProdiDataController::class, 'store'])->name('prodi.store');
     Route::get('/prodi/{id}/edit', [ProdiDataController::class, 'edit'])->name('prodi.edit');

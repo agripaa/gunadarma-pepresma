@@ -211,7 +211,7 @@
         const query = this.value;
 
         if (query.length >= 3) {
-            fetch(`/search-mahasiswa?q=${query}`)
+            fetch(`{{ route('search-mahasiswa') }}?q=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     const resultsDiv = document.getElementById('mahasiswa-search-results');
@@ -249,7 +249,7 @@
         const query = this.value;
 
         if (query.length >= 3) {
-            fetch(`/search-dospem?q=${query}`)
+            fetch(`{{ route('search-dospem') }}?q=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     const resultsDiv = document.getElementById('dospem-search-results');

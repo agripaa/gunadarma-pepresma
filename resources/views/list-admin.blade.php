@@ -5,7 +5,7 @@
 @section('content')
 <!-- Add Admin Button and Search Bar -->
 <div class="flex items-center justify-between my-6">
-    <a href="/admin/create" class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">Tambahkan Admin</a>
+    <a href="{{ route('create') }}" class="bg-gray-200 px-4 py-2 rounded-lg font-semibold">Tambahkan Admin</a>
 
     <!-- Search Form -->
     <form action="{{ route('admin.search') }}" method="GET">

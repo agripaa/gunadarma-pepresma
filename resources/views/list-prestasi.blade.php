@@ -90,9 +90,9 @@
                     search: searchBar.value
                 }).toString();
 
-                downloadExcelButton.href = `/export-prestasi?${query}`;
+                downloadExcelButton.href = `{{ route('export-prestasi') }}?${query}`;
             } else {
-                downloadExcelButton.href = `/export-prestasi`;
+                downloadExcelButton.href = `{{ route('export-prestasi') }}`;
             }
         }
 
@@ -106,7 +106,7 @@
                 page: page
             };
 
-            fetch('/get-prestasi?' + new URLSearchParams(query))
+            fetch('{{ route('get-prestasi') }}?' + new URLSearchParams(query))
                 .then(response => response.json())
                 .then(data => {
                     prestasiTableBody.innerHTML = '';
@@ -122,8 +122,8 @@
                             const capaian = p.capaian || {};
                             const fileUpload = p.file_upload || {};
 
-                            const detailUrl = `/prestasi/${p.id}`;
-                            const uppUrl = fileUpload.url_upp ? `/storage/${fileUpload.url_upp}` : '';
+                            const detailUrl = `{{ url('/prestasi') }}/${p.id}`;
+                            const uppUrl = fileUpload.url_upp ? `{{ asset('storage') }}/${fileUpload.url_upp}` : '';
                             const lampiranHtml = uppUrl
                                 ? `<a href="${detailUrl}#lampiran" class="inline-flex items-center justify-center">
                                         <img src="${uppUrl}" alt="UPP" class="h-10 w-10 rounded object-cover" />
@@ -149,8 +149,8 @@
                                     <td class="py-3 px-4 text-center">
                                         <div class="inline-flex flex-wrap items-center justify-center gap-2">
                                             <a href="${detailUrl}" class="rounded-lg bg-purple-600 px-3 py-1 text-xs font-semibold text-white hover:bg-purple-700">Detail</a>
-                                            <a href="/prestasi/${p.id}/edit" class="rounded-lg bg-yellow-500 px-3 py-1 text-xs font-semibold text-white hover:bg-yellow-600">Edit</a>
-                                            <form action="/prestasi/${p.id}" method="POST" onsubmit="return confirm('Hapus data ini?');" class="inline-block">
+                                            <a href="{{ url('/prestasi') }}/${p.id}/edit" class="rounded-lg bg-yellow-500 px-3 py-1 text-xs font-semibold text-white hover:bg-yellow-600">Edit</a>
+                                            <form action="{{ url('/prestasi') }}/${p.id}" method="POST" onsubmit="return confirm('Hapus data ini?');" class="inline-block">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <button type="submit" class="rounded-lg bg-red-500 px-3 py-1 text-xs font-semibold text-white hover:bg-red-700">Hapus</button>
